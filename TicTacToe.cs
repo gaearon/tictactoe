@@ -88,7 +88,7 @@ namespace TicTacToe
         {
             return vectors
                 .Select (FindWinner)
-                .FirstOrDefault (v => v != null);
+                .FirstOrDefault (winner => winner.HasValue);
         }
 
         public bool? FindWinner ()
