@@ -41,7 +41,7 @@ namespace TicTacToe
         {
             return cell.HasValue
                 ? (cell.Value ? "X" : "O")
-                    : "_";
+                : "_";
         }
 
         static string FormatRow (IEnumerable<bool?> row)
@@ -60,7 +60,7 @@ namespace TicTacToe
                 var move = Tuple.Create (
                     input [0] - 'A',
                     input [1] - '1'
-                    );
+                );
 
                 if (!ValidateMove (move))
                     throw new Exception ();

@@ -14,8 +14,8 @@ namespace TicTacToe
         {
             _data = Enumerable
                 .Range (0, Length)
-                    .Select (_ => new bool? [Length])
-                    .ToArray ();
+                .Select (_ => new bool? [Length])
+                .ToArray ();
         }
 
         public bool? GetCell (int row, int column)
@@ -37,14 +37,14 @@ namespace TicTacToe
         {
             return GetIndices ()
                 .Select (GetRow)
-                    .Select (row => row.ElementAt (index));
+                .Select (row => row.ElementAt (index));
         }
 
         public IEnumerable<bool?> GetDiagonal (bool ltr)
         {
             return GetIndices ()
                 .Select (i => Tuple.Create (i, ltr ? i : Length - 1 - i))
-                    .Select (pos => GetCell (pos.Item1, pos.Item2));
+                .Select (pos => GetCell (pos.Item1, pos.Item2));
         }
 
         public IEnumerable<IEnumerable<bool?>> GetRows ()
@@ -62,14 +62,14 @@ namespace TicTacToe
         public IEnumerable<IEnumerable<bool?>> GetDiagonals ()
         {
             return new [] { true, false }
-            .Select (GetDiagonal);
+                .Select (GetDiagonal);
         }
 
         public IEnumerable<IEnumerable<bool?>> GetVectors ()
         {
             return GetDiagonals ()
                 .Concat (GetRows ())
-                    .Concat (GetColumns ());
+                .Concat (GetColumns ());
         }
 
         static bool? FindWinner (IEnumerable<bool?> vector)
@@ -77,7 +77,7 @@ namespace TicTacToe
             try {
                 return vector
                     .Distinct ()
-                        .Single ();
+                    .Single ();
             } catch (InvalidOperationException) {
                 return null;
             }
@@ -87,7 +87,7 @@ namespace TicTacToe
         {
             return vectors
                 .Select (FindWinner)
-                    .FirstOrDefault (v => v != null);
+                .FirstOrDefault (v => v != null);
         }
 
         public bool? FindWinner ()
