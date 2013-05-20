@@ -22,7 +22,6 @@ namespace TicTacToe
                     player = !player;
                 } catch (Exception ex) {
                     Console.WriteLine ("I can't do that. {0}", ex.Message);
-                    continue;
                 } finally {
                     Console.WriteLine ("\n\n");
                 }
