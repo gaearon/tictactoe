@@ -7,16 +7,15 @@ namespace TicTacToe
     class TicTacToe
     {
         const int Length = 3;
-
         private bool?[][] _data;
         private bool? _winner;
 
         public TicTacToe ()
         {
             _data = Enumerable
-				.Range (0, Length)
-				.Select (_ => new bool? [Length])
-				.ToArray ();
+                .Range (0, Length)
+                    .Select (_ => new bool? [Length])
+                    .ToArray ();
         }
 
         public bool? GetCell (int row, int column)
@@ -37,48 +36,48 @@ namespace TicTacToe
         public IEnumerable<bool?> GetColumn (int index)
         {
             return GetIndices ()
-				.Select (GetRow)
-				.Select (row => row.ElementAt (index));
+                .Select (GetRow)
+                    .Select (row => row.ElementAt (index));
         }
 
         public IEnumerable<bool?> GetDiagonal (bool ltr)
         {
             return GetIndices ()
-				.Select (i => Tuple.Create (i, ltr ? i : Length - 1 - i))
-				.Select (pos => GetCell (pos.Item1, pos.Item2));
+                .Select (i => Tuple.Create (i, ltr ? i : Length - 1 - i))
+                    .Select (pos => GetCell (pos.Item1, pos.Item2));
         }
 
         public IEnumerable<IEnumerable<bool?>> GetRows ()
         {
             return GetIndices ()
-				.Select (GetRow);
+                .Select (GetRow);
         }
 
         public IEnumerable<IEnumerable<bool?>> GetColumns ()
         {
             return GetIndices ()
-				.Select (GetColumn);
+                .Select (GetColumn);
         }
 
         public IEnumerable<IEnumerable<bool?>> GetDiagonals ()
         {
             return new [] { true, false }
-				.Select (GetDiagonal);
+            .Select (GetDiagonal);
         }
 
         public IEnumerable<IEnumerable<bool?>> GetVectors ()
         {
             return GetDiagonals ()
-				.Concat (GetRows ())
-				.Concat (GetColumns ());
+                .Concat (GetRows ())
+                    .Concat (GetColumns ());
         }
 
         static bool? FindWinner (IEnumerable<bool?> vector)
         {
             try {
                 return vector
-					.Distinct ()
-					.Single ();
+                    .Distinct ()
+                        .Single ();
             } catch (InvalidOperationException) {
                 return null;
             }
@@ -87,8 +86,8 @@ namespace TicTacToe
         static bool? FindWinner (IEnumerable<IEnumerable<bool?>> vectors)
         {
             return vectors
-				.Select (FindWinner)
-				.FirstOrDefault (v => v != null);
+                .Select (FindWinner)
+                    .FirstOrDefault (v => v != null);
         }
 
         public bool? FindWinner ()
