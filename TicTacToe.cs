@@ -7,6 +7,7 @@ namespace TicTacToe
     class TicTacToe
     {
         const int Length = 3;
+
         private bool?[][] _data;
         private bool? _winner;
 
