@@ -21,7 +21,13 @@ namespace TicTacToe
             Player? winner = null;
 
             do {
-                var move = io.AskNextMove (player, board);
+                Tuple<int, int> move;
+                try {
+                    move = io.AskNextMove (player, board);
+                } catch {
+                    io.DisplayError (GameError.CouldNotParseMove);
+                    continue;
+                }
 
                 if (!ValidateMove (move)) {
                     io.DisplayError (GameError.CouldNotParseMove);
@@ -59,6 +65,12 @@ namespace TicTacToe
             default:
                 throw new NotImplementedException ();
             }
+        }
+
+        public static void Main (string[] args)
+        {
+            var game = new Game (new Board (3), new BoardAnalyzer (), new ConsoleGameIO ());
+            game.Run ();
         }
     }
 }
