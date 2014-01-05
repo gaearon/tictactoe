@@ -6,17 +6,17 @@ namespace TicTacToe
 {
     class BoardAnalyzer : IBoardAnalyzer
     {
-        public Player? FindWinner (IBoard board)
+        public Player? DetermineWinner (IBoard board)
         {
             return (
                 from line in board.SelectAllLines ()
-                let winner = FindLineWinner (line)
+                let winner = DetermineLineWinner (line)
                 where winner.HasValue
                 select winner
             ).FirstOrDefault ();
         }
 
-        static Player? FindLineWinner (IEnumerable<Player?> line)
+        static Player? DetermineLineWinner (IEnumerable<Player?> line)
         {
             try {
                 return line.Distinct ().Single ();

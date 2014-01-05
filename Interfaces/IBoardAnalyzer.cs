@@ -4,7 +4,7 @@ namespace TicTacToe
 {
     interface IBoardAnalyzer
     {
-        Player? FindWinner (IBoard board);
+        Player? DetermineWinner (IBoard board);
     }
 }
 

@@ -42,7 +42,7 @@ namespace TicTacToe
                 }
 
                 player = GetNextPlayer (player);
-                winner = analyzer.FindWinner (board);
+                winner = analyzer.DetermineWinner (board);
 
             } while (!winner.HasValue);
 
