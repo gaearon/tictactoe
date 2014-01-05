@@ -34,7 +34,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="TicTacToe.cs" />
+    <Compile Include="Board.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="BoardAnalyzer.cs" />
+    <Compile Include="Interfaces\IBoard.cs" />
+    <Compile Include="Interfaces\IBoardAnalyzer.cs" />
+    <Compile Include="Extensions\BoardExtensions.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Interfaces\IGameIO.cs" />
+    <Compile Include="ConsoleGameIO.cs" />
+    <Compile Include="GameError.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -46,4 +55,8 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
 </Project>
