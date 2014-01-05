@@ -4,27 +4,50 @@ using System.Collections.Generic;
 
 namespace TicTacToe
 {
+    enum Player {
+        X,
+        O
+    }
+
     class TicTacToe
     {
         const int Length = 3;
 
-        private bool?[][] _data;
-        private bool? _winner;
+        private Player?[][] _data;
+        private Player? _winner;
 
         public TicTacToe ()
         {
             _data = Enumerable
                 .Range (0, Length)
-                .Select (_ => new bool? [Length])
+                .Select (_ => new Player? [Length])
                 .ToArray ();
         }
 
-        public bool? GetCell (int row, int column)
+        public IEnumerable<IEnumerable<Player?>> GetRows ()
+        {
+            return GetIndices ()
+                .Select (GetRow);
+        }
+
+        public IEnumerable<IEnumerable<Player?>> GetColumns ()
+        {
+            return GetIndices ()
+                .Select (GetColumn);
+        }
+
+        public IEnumerable<IEnumerable<Player?>> GetDiagonals ()
+        {
+            return new [] { true, false }
+                .Select (GetDiagonal);
+        }
+
+        Player? GetCell (int row, int column)
         {
             return _data [row] [column];
         }
 
-        public IEnumerable<bool?> GetRow (int index)
+        IEnumerable<Player?> GetRow (int index)
         {
             return _data [index];
         }
@@ -34,46 +57,28 @@ namespace TicTacToe
             return Enumerable.Range (0, Length);
         }
 
-        public IEnumerable<bool?> GetColumn (int index)
+        IEnumerable<Player?> GetColumn (int index)
         {
             return GetIndices ()
                 .Select (GetRow)
                 .Select (row => row.ElementAt (index));
         }
 
-        public IEnumerable<bool?> GetDiagonal (bool ltr)
+        IEnumerable<Player?> GetDiagonal (bool primary)
         {
             return GetIndices ()
-                .Select (i => Tuple.Create (i, ltr ? i : Length - 1 - i))
+                .Select (i => Tuple.Create (i, primary ? i : Length - 1 - i))
                 .Select (pos => GetCell (pos.Item1, pos.Item2));
         }
 
-        public IEnumerable<IEnumerable<bool?>> GetRows ()
-        {
-            return GetIndices ()
-                .Select (GetRow);
-        }
-
-        public IEnumerable<IEnumerable<bool?>> GetColumns ()
-        {
-            return GetIndices ()
-                .Select (GetColumn);
-        }
-
-        public IEnumerable<IEnumerable<bool?>> GetDiagonals ()
-        {
-            return new [] { true, false }
-                .Select (GetDiagonal);
-        }
-
-        public IEnumerable<IEnumerable<bool?>> GetVectors ()
+        IEnumerable<IEnumerable<Player?>> GetVectors ()
         {
             return GetDiagonals ()
                 .Concat (GetRows ())
                 .Concat (GetColumns ());
         }
 
-        static bool? FindWinner (IEnumerable<bool?> vector)
+        static Player? FindWinner (IEnumerable<Player?> vector)
         {
             try {
                 return vector
@@ -84,19 +89,19 @@ namespace TicTacToe
             }
         }
 
-        static bool? FindWinner (IEnumerable<IEnumerable<bool?>> vectors)
+        static Player? FindWinner (IEnumerable<IEnumerable<Player?>> vectors)
         {
             return vectors
                 .Select (FindWinner)
                 .FirstOrDefault (winner => winner.HasValue);
         }
 
-        public bool? FindWinner ()
+        public Player? FindWinner ()
         {
             return FindWinner (GetVectors ());
         }
 
-        public bool MakeMove (int row, int column, bool move)
+        public bool MakeMove (Player player, int row, int column)
         {
             if (_winner.HasValue)
                 throw new InvalidOperationException ("The game is already won.");
@@ -104,13 +109,17 @@ namespace TicTacToe
             if (_data [row] [column].HasValue)
                 throw new InvalidOperationException ("This cell is already taken.");
 
-            _data [row] [column] = move;
+            _data [row] [column] = player;
             _winner = FindWinner ();
 
-            return move == _winner;
+            return _winner.HasValue;
         }
 
-        public bool? Winner {
+        public bool HasWinner {
+            get { return _winner.HasValue; }
+        }
+
+        public Player? Winner {
             get { return _winner; }
         }
     }

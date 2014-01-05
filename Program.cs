@@ -6,20 +6,32 @@ namespace TicTacToe
 {
     class MainClass
     {
+        static Player GetNextPlayer (Player p)
+        {
+            switch (p) {
+            case Player.X:
+                return Player.O;
+            case Player.O:
+                return Player.X;
+            default:
+                throw new NotImplementedException ();
+            }
+        }
+
         public static void Main (string[] args)
         {
             var game = new TicTacToe ();
-            bool player = true;
+            var player = Player.X;
 
-            while (!game.Winner.HasValue) {
+            while (!game.HasWinner) {
                 Console.WriteLine ("{0}, what will be your move?\n", FormatPlayer (player));
                 Console.WriteLine (FormatGame (game));
                 Console.Write ("\nType A1 to C3: ", FormatPlayer (player));
 
                 try {
                     var move = ParseMove (Console.ReadLine ().Trim ());
-                    game.MakeMove (move.Item1, move.Item2, player);
-                    player = !player;
+                    game.MakeMove (player, move.Item1, move.Item2);
+                    player = GetNextPlayer (player);
                 } catch (Exception ex) {
                     Console.WriteLine ("I can't do that. {0}", ex.Message);
                 } finally {
@@ -31,19 +43,17 @@ namespace TicTacToe
                 Console.Write (msg);
         }
 
-        static string FormatPlayer (bool player)
+        static string FormatPlayer (Player player)
         {
             return FormatCell (player);
         }
 
-        static string FormatCell (bool? cell)
+        static string FormatCell (Player? cell)
         {
-            return cell.HasValue
-                ? (cell.Value ? "X" : "O")
-                : "_";
+            return cell.HasValue ? cell.Value.ToString () : "_";
         }
 
-        static string FormatRow (IEnumerable<bool?> row)
+        static string FormatRow (IEnumerable<Player?> row)
         {
             return string.Join ("|", row.Select (FormatCell));
         }
@@ -77,7 +87,7 @@ namespace TicTacToe
                 && move.Item2 >= 0 && move.Item2 <= 2;
         }
 
-        static IEnumerable<string> FormatWinnerMessage (bool player)
+        static IEnumerable<string> FormatWinnerMessage (Player player)
         {
             while (true) {
                 for (var i = 0; i < 30; i++)
