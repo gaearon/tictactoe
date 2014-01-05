@@ -11,9 +11,29 @@ namespace TicTacToe
             Secondary
         }
 
-        public static IEnumerable<int> SelectIndices (this IBoard board)
+        public static IEnumerable<IEnumerable<Player?>> SelectAllLines (this IBoard board)
         {
-            return Enumerable.Range (0, board.Size);
+            return board.SelectAllDiagonals ()
+                .Concat (board.SelectAllRows ())
+                .Concat (board.SelectAllColumns ());
+        }
+
+        public static IEnumerable<IEnumerable<Player?>> SelectAllRows (this IBoard board)
+        {
+            return from row in board.SelectIndices ()
+                   select board.SelectRow (row);
+        }
+
+        public static IEnumerable<IEnumerable<Player?>> SelectAllColumns (this IBoard board)
+        {
+            return from column in board.SelectIndices ()
+                   select board.SelectColumn (column);
+        }
+
+        public static IEnumerable<IEnumerable<Player?>> SelectAllDiagonals (this IBoard board)
+        {
+            return from kind in new [] { DiagonalKind.Primary, DiagonalKind.Secondary }
+                   select board.SelectDiagonal (kind);
         }
 
         public static IEnumerable<Player?> SelectRow (this IBoard board, int row)
@@ -38,29 +58,9 @@ namespace TicTacToe
                    select board.GetCell (row, column);
         }
 
-        public static IEnumerable<IEnumerable<Player?>> SelectAllRows (this IBoard board)
+        public static IEnumerable<int> SelectIndices (this IBoard board)
         {
-            return from row in board.SelectIndices ()
-                   select board.SelectRow (row);
-        }
-
-        public static IEnumerable<IEnumerable<Player?>> SelectAllColumns (this IBoard board)
-        {
-            return from column in board.SelectIndices ()
-                   select board.SelectColumn (column);
-        }
-
-        public static IEnumerable<IEnumerable<Player?>> SelectAllDiagonals (this IBoard board)
-        {
-            return from kind in new [] { DiagonalKind.Primary, DiagonalKind.Secondary }
-                   select board.SelectDiagonal (kind);
-        }
-
-        public static IEnumerable<IEnumerable<Player?>> SelectAllLines (this IBoard board)
-        {
-            return board.SelectAllDiagonals ()
-                .Concat (board.SelectAllRows ())
-                .Concat (board.SelectAllColumns ());
+            return Enumerable.Range (0, board.Size);
         }
     }
 }
