@@ -9,7 +9,7 @@ namespace TicTacToe
         public Player? FindWinner (IBoard board)
         {
             return board
-                .EnumerateLines ()
+                .SelectAllLines ()
                 .Select (FindLineWinner)
                 .FirstOrDefault (winner => winner.HasValue);
         }

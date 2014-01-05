@@ -28,7 +28,7 @@ namespace TicTacToe
 
         static string FormatBoard (IBoard board)
         {
-            return string.Join ("\n", from row in board.EnumerateRows () select FormatRow (row));
+            return string.Join ("\n", from row in board.SelectAllRows () select FormatRow (row));
         }
 
         static string FormatRow (IEnumerable<Player?> row)
