@@ -18,7 +18,17 @@ namespace TicTacToe
 
         public void DisplayError (GameError error)
         {
-            Console.WriteLine ("Bad move.");
+            switch (error) {
+            case GameError.CellAlreadyOccupied:
+                Console.WriteLine ("Bad move: cell is already occupied.");
+                break;
+            case GameError.CouldNotParseMove:
+                Console.WriteLine ("Bad move. Valid moves are A1 to C3.");
+                break;
+            default:
+                Console.WriteLine ("Something went wrong.");
+                break;
+            }
         }
 
         public void DisplayWinner (Player player)
