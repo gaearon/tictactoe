@@ -16,21 +16,19 @@ namespace TicTacToe
             _cells = CreateEmptyCells (size);
         }
 
-        public Player? GetCell (int row, int column)
-        {
-            CheckBounds (row, column);
+        public Player? this [int row, int column] {
+            get {
+                CheckBounds (row, column);
 
-            return _cells [row] [column];
-        }
+                return _cells [row] [column];
+            } set {
+                CheckBounds (row, column);
 
-        public void SetCell (int row, int column, Player player)
-        {
-            CheckBounds (row, column);
+                if (this [row, column].HasValue)
+                    throw new InvalidOperationException ("The cell is already claimed.");
 
-            if (GetCell (row, column).HasValue)
-                throw new InvalidOperationException ("The cell is already claimed.");
-
-            _cells [row] [column] = player;
+                _cells [row] [column] = value;
+            }
         }
 
         static Player? [][] CreateEmptyCells (int size)

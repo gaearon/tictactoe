@@ -35,7 +35,7 @@ namespace TicTacToe
                 }
 
                 try {
-                    board.SetCell (move.Item1, move.Item2, player);
+                    board[move.Item1, move.Item2] = player;
                 } catch (InvalidOperationException) {
                     io.DisplayError (GameError.CellAlreadyOccupied);
                     continue;

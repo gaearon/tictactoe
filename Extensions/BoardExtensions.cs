@@ -39,13 +39,13 @@ namespace TicTacToe
         public static IEnumerable<Player?> SelectRow (this IBoard board, int row)
         {
             return from column in board.SelectIndices ()
-                   select board.GetCell (row, column);
+                   select board [row, column];
         }
 
         public static IEnumerable<Player?> SelectColumn (this IBoard board, int column)
         {
             return from row in board.SelectIndices ()
-                   select board.GetCell (row, column);
+                   select board [row, column];
         }
 
         public static IEnumerable<Player?> SelectDiagonal (this IBoard board, DiagonalKind kind)
@@ -55,7 +55,7 @@ namespace TicTacToe
                    let column = (kind == DiagonalKind.Primary)
                        ? index
                        : board.Size - 1 - index
-                   select board.GetCell (row, column);
+                   select board [row, column];
         }
 
         public static IEnumerable<int> SelectIndices (this IBoard board)
