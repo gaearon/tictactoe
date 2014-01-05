@@ -5,34 +5,26 @@ namespace TicTacToe
 {
     class Board : IBoard
     {
-        Player? [][] _cells;
+        Player? [,] _cells;
 
         public int Size {
-            get { return _cells.Length; }
+            get { return _cells.GetLength (0); }
         }
 
         public Board (int size)
         {
-            _cells = CreateEmptyCells (size);
+            _cells = new Player? [size, size];
         }
 
         public Player? this [int row, int column] {
             get {
-                return _cells [row] [column];
+                return _cells [row, column];
             } set {
-                if (this [row, column].HasValue)
+                if (_cells [row, column].HasValue)
                     throw new InvalidOperationException ("The cell is already claimed.");
 
-                _cells [row] [column] = value;
+                _cells [row, column] = value;
             }
-        }
-
-        static Player? [][] CreateEmptyCells (int size)
-        {
-            return Enumerable
-                .Range (0, size)
-                .Select (_ => new Player? [size])
-                .ToArray ();
         }
     }
 }
